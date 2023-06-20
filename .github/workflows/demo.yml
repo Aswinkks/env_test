@@ -10,7 +10,7 @@ jobs:
     outputs:
       env_name: ${{ steps.step1.outputs.env_name }}
     environment:
-      name: ${{ env_name }}
+      name: $env_name
     steps:
       - id: step1
         run: |
