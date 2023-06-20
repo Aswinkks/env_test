@@ -9,8 +9,6 @@ jobs:
     # Map a step output to a job output
     outputs:
       env_name: ${{ steps.step1.outputs.env_name }}
-    environment:
-      name: $env_name
     steps:
       - id: step1
         run: |
@@ -20,32 +18,26 @@ jobs:
            elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
             echo "::set-output name=env_name::Development"
            fi
+
+  DEMO-JOB:
+    runs-on: ubuntu-latest
+    needs: DBK-PIPELINE-JOB
+    steps:
+      - name: Set environment variable
+        run: echo "ENV_NAME=${{ needs.DBK-PIPELINE-JOB.outputs.env_name }}" >> $GITHUB_ENV
+      - name: Print environment variable
+        run: echo $ENV_NAME
+
+  login:
+    runs-on: ubuntu-latest
+    needs: DEMO-JOB
+    environment:
+      name: ${{ env.ENV_NAME }}
+    steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-#   DEMO-JOB:
-#     runs-on: ubuntu-latest
-#     needs: DBK-PIPELINE-JOB
-#     steps:
-#       - env:
-#           env_name: ${{needs.DBK-PIPELINE-JOB.outputs.env_name}}
-#         run: echo "i'm this $env_name"
-
-#   login:
-#     runs-on: ubuntu-latest
-#     needs: DEMO-JOB
-#     environment:
-#       name: Product
-#       url: ${{needs.DBK-PIPELINE-JOB.outputs.env_name}}
-#     steps:
-#       - name: Login to Docker Hub
-#         uses: docker/login-action@v2
-#         with:
-#           username: ${{ secrets.USERNAME }}
-#           password: ${{ secrets.PASSWORD }}
           
-#       - name: list
-#         run: |
-#           docker images
+
