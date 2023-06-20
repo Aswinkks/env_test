@@ -36,5 +36,7 @@ jobs:
         with:
           username: ${{ secrets.PROD_USERNAME }}
           password: ${{ secrets.PROD_PASS }}
+          
+      - name: list
         run: |
           docker images
