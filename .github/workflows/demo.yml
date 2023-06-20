@@ -2,6 +2,14 @@ name: dbk cicd pipeline
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Select the environment
+        required: true
+        options:
+          - TEST
+          - UAT
 #       - 'ncr_cicd/**'
 
 
