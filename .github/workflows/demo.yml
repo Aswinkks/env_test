@@ -26,7 +26,7 @@ jobs:
     steps:
       - env:
           env_name: ${{needs.DBK-PIPELINE-JOB.outputs.env_name}}
-        run: echo "i'm $env_name"
+        run: echo "i'm the ${{needs.DBK-PIPELINE-JOB.outputs.env_name}}"
 
   login:
     runs-on: ubuntu-latest
