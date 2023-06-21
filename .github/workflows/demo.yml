@@ -10,14 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
-      env_name: ${{ steps.step1.outputs.env_name }}
+      env_name: ${{ steps.branch_check.outputs.env_name }}
     steps:
-      - id: step1
+      - id: branch_check
         run: |
            echo "Running on branch ${{ github.ref }}"
            if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             echo "::set-output name=env_name::main"
-           elif [ "${{ github.ref }}" = "refs/heads/development" ]; then
+           elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
             echo "::set-output name=env_name::Production"
            fi
   DEMO-JOB:
