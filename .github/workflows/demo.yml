@@ -12,21 +12,17 @@ jobs:
     outputs:
       env_name: ${{ steps.branch_check.outputs.env_name }}
     steps:
-      - id: branch_check
+      - name: Some check on branch
+        id: branch_check
         run: |
            echo "Running on branch ${{ github.ref }}"
            if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             echo "::set-output name=env_name::main"
            elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
             echo "::set-output name=env_name::Production"
+           else
+            echo "abcd"
            fi
-  DEMO-JOB:
-    runs-on: ubuntu-latest
-    needs: DBK-PIPELINE-JOB
-    steps:
-      - env:
-          env_name: ${{needs.DBK-PIPELINE-JOB.outputs.env_name}}
-        run: echo "i'm $env_name"
 
   login:
     runs-on: ubuntu-latest
