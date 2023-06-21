@@ -1,66 +1,70 @@
-name: Test variable environment
+
+name: dbk cicd pipeline
+
 on:
   workflow_dispatch:
+  
 jobs:
-  fetch-env-name:
+  DBK-PIPELINE-JOB:
     runs-on: ubuntu-latest
     outputs:
-      env_name: ${{ steps.branch_check.outputs.env_name }}
+      env_name: ${{ steps.step1.outputs.env_name }}
     steps:
-      - name: Some check on branch
-        id: branch_check
+      - id: step1
         run: |
-          echo "Running on branch ${{ github.ref }}"
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            echo "::set-output name=env_name::Production"
-          elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
-            echo "env_name=dev" >> "$GITHUB_OUTPUT"
-          elif [ "${{ github.ref }}" = "refs/heads/uat" ]; then
-            echo "env_name=uat" >> "$GITHUB_OUTPUT"
-          else
-             echo "Undefined envs"
-          fi     
-  deploy:
+           echo "Running on branch ${{ github.ref }}"
+           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "env_name=Production" >> "$GITHUB_OUTPUT"
+           elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
+            echo "env_name=develop" >> "$GITHUB_OUTPUT"
+           else
+            echo "no variables"
+           fi
+             echo "env_name=Production" >> "$GITHUB_OUTPUT"
+  login:
     runs-on: ubuntu-latest
-    needs: fetch-env-name
-    environment: ${{ needs.fetch-env-name.outputs.env_name }}
+    needs: DBK-PIPELINE-JOB
+    environment: ${{ needs.DBK-PIPELINE-JOB.outputs.env_name }}
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
+
 # name: dbk cicd pipeline
 
 # on:
 #   workflow_dispatch:
-  
+# #       - 'ncr_cicd/**'
+
+
 # jobs:
-#   DBK-PIPELINE-JOB:
+#   DBK_CICD:
 #     runs-on: ubuntu-latest
+#     # Map a step output to a job output
 #     outputs:
-#       env_name: ${{ steps.step1.outputs.env_name }}
+#       env_name: ${{ steps.branch_check.outputs.env_name }}
 #     steps:
-#       - id: step1
+#       - name: Some check on branch
+#         id: branch_check
 #         run: |
 #            echo "Running on branch ${{ github.ref }}"
 #            if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-#             echo "env_name=Production" >> "$GITHUB_OUTPUT"
+#             echo "::set-output name=env_name::main"
 #            elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
-#             echo "env_name=develop" >> "$GITHUB_OUTPUT"
+#             echo "::set-output name=env_name::Production"
 #            else
-#             echo "no variables"
+#             echo "abcd"
 #            fi
-#              echo "env_name=Production" >> "$GITHUB_OUTPUT"
+
 #   login:
 #     runs-on: ubuntu-latest
-#     needs: DBK-PIPELINE-JOB
-#     environment: ${{ needs.fetch-env-name.outputs.env_name }}
+#     needs: DBK_CICD
+#     environment:
+#       name: ${{needs.DBK_CICD.outputs.env_name}}
 #     steps:
 #       - name: Login to Docker Hub
-#         run: |
-#           echo ${{ needs.fetch-env-name.outputs.env_name }}
-#           echo "hi ${{ vars.MY_NAME }}"
 #         uses: docker/login-action@v2
 #         with:
 #           username: ${{ secrets.USERNAME }}
