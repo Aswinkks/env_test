@@ -28,6 +28,7 @@ jobs:
       - name: variable
         run: |
           echo ${{ needs.fetch-env-name.outputs.env_name }}
+          echo ${{ secrets.USERNAME }}
           echo ${{ vars.MY_NAME }} #environment variable set at repository 
 # name: dbk cicd pipeline
 
