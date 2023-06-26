@@ -5,9 +5,32 @@ on:
   workflow_dispatch:
   
 jobs:
+
+name: dbk cicd pipeline
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  DBK-PIPELINE-JOB:
+    runs-on: ubuntu-latest
+    outputs:
+      env_name: ${{ steps.step1.outputs.env_name }}
+    steps:
+      - id: step1
+        run: |
+           echo "Running on branch ${{ github.ref }}"
+           if [ "${{ github.ref }}" = "refs/heads/tag" ]; then
+            echo "env_name=tag_branch" >> "$GITHUB_OUTPUT"
+           elif [ "${{ github.ref }}" = "refs/heads/release" ]; then
+            echo "env_name=release_branch" >> "$GITHUB_OUTPUT"
+           else
+            echo "no variables"
+
   build:
     name: Create Release
     runs-on: ubuntu-latest
+    needs: DBK-PIPELINE-JOB
     steps:
       - name: Checkout code
         uses: actions/checkout@master
