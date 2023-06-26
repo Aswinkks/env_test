@@ -5,13 +5,6 @@ on:
   workflow_dispatch:
   
 jobs:
-
-name: dbk cicd pipeline
-
-on:
-  workflow_dispatch:
-  
-jobs:
   DBK-PIPELINE-JOB:
     runs-on: ubuntu-latest
     outputs:
