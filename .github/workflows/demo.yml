@@ -16,8 +16,8 @@ jobs:
           echo "Running on branch ${{ github.ref }}"
           if [ "${{ github.ref }}" = "refs/heads/tag" ]; then
             echo "env_name=tag_branch" >> "$GITHUB_OUTPUT"
-          elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
-            echo "env_name=dev" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.ref }}" = "refs/heads/release" ]; then
+            echo "env_name=release_branch" >> "$GITHUB_OUTPUT"
           elif [ "${{ github.ref }}" = "refs/heads/uat" ]; then
             echo "env_name=uat" >> "$GITHUB_OUTPUT"
           else
