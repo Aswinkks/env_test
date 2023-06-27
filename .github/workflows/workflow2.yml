@@ -1,7 +1,9 @@
 name: workflow_02
 on:
-    repository_dispatch:
-        types: [ workflow_01 ]
+  release:
+    types:
+      - published
+      - created
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
