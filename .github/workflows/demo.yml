@@ -3,9 +3,9 @@ name: Tag pipeline
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - tag
+#   push:
+#     branches:
+#       - tag
   
   
 
