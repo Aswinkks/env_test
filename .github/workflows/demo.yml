@@ -2,9 +2,13 @@
 name: dbk cicd pipeline
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - tag
+  
+  
+
   
 jobs:
   fetch-env-name:
