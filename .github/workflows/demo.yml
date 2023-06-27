@@ -37,6 +37,7 @@ jobs:
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           target_commitish: tag
+          tag_name: tag_branch
 #         id: create_release
 #         uses: actions/create-release@latest
 #         env:
