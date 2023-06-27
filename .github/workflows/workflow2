@@ -1,5 +1,8 @@
 name: workflow_02
-on: [repository_dispatch]
+on:
+  release:
+    types: [published]
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
