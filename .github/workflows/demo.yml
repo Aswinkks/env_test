@@ -42,6 +42,12 @@ jobs:
           token: ${{ secrets.ACCESS_TOKEN }}
           target_commitish: 62aef299afd1ddaad509fd16430e0130ac5a5627
           tag_name: tag_branch
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
 #         id: create_release
 #         uses: actions/create-release@latest
 #         env:
