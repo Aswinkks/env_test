@@ -1,87 +1,54 @@
-name: workflow_01
+name: Tag pipeline
+
 on:
   workflow_dispatch:
-     inputs:
-      workflow_02:
-        description: 'ًWorkflow 2 which will be triggered'
-        required: true
-        default: 'workflow_02'
+#   push:
+#     branches:
+#       - tag
+  
+  
 
-      workflow2_github_account:
-        description: 'GitHub Account Owner'
-        required: true
-        default: ':userName'
-
-      workflow2_repo_github:
-        description: 'repo-name'
-        required: true
-        default: ':repoName' 
-
+  
 jobs:
-  build:
+  fetch-env-name:
     runs-on: ubuntu-latest
-
+    outputs:
+      env_name: ${{ steps.branch_check.outputs.env_name }}
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Test
+      - name: Some check on branch
+        id: branch_check
         run: |
-          curl -X POST https://api.github.com/repos/:userName/:repoName/dispatches \
-          -H 'Accept: application/vnd.github.everest-preview+json' \
-          -u ${{ secrets.ACCESS_TOKEN }} \
-          --data '{"event_type": "Trigger Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
-      - uses: actions/checkout@v3
-
-# name: Tag pipeline
-
-# on:
-#   workflow_dispatch:
-# #   push:
-# #     branches:
-# #       - tag
-  
-  
-
-  
-# jobs:
-#   fetch-env-name:
-#     runs-on: ubuntu-latest
-#     outputs:
-#       env_name: ${{ steps.branch_check.outputs.env_name }}
-#     steps:
-#       - name: Some check on branch
-#         id: branch_check
-#         run: |
-#           echo "Running on branch ${{ github.ref }}"
-#           if [ "${{ github.ref }}" = "refs/heads/tag" ]; then
-#             echo "env_name=tag_branch" >> "$GITHUB_OUTPUT"
-#           elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
-#             echo "env_name=dev" >> "$GITHUB_OUTPUT"
-#           elif [ "${{ github.ref }}" = "refs/heads/uat" ]; then
-#             echo "env_name=uat" >> "$GITHUB_OUTPUT"
-#           else
-#              echo "v1"
-#           fi    
-#   build:
-#     name: Create Release
-#     runs-on: ubuntu-latest
-#     needs: fetch-env-name
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@master
-#       - name: Create Release
-#         id: create_release
-#         uses: actions/create-release@latest
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-#         with:
-#           commitish: tag
-#           tag_name: ${{github.run_number}}
-#           release_name: Release ${{ needs.fetch-env-name.outputs.env_name }} ${{github.run_number}}
-#           body: |
-#             Changes in this Release
-#             - First Change
-#             - Second Change
-#           draft: false
-#           prerelease: false
+          echo "Running on branch ${{ github.ref }}"
+          if [ "${{ github.ref }}" = "refs/heads/tag" ]; then
+            echo "env_name=tag_branch" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
+            echo "env_name=dev" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.ref }}" = "refs/heads/uat" ]; then
+            echo "env_name=uat" >> "$GITHUB_OUTPUT"
+          else
+             echo "v1"
+          fi    
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: fetch-env-name
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          commitish: tag
+          tag_name: ${{github.run_number}}
+          release_name: Release ${{ needs.fetch-env-name.outputs.env_name }} ${{github.run_number}}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
 
 
