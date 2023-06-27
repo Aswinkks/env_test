@@ -33,17 +33,31 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@master
       - name: Create Release
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          commitish: tag
-          tag_name: ${{github.run_number}}
-          release_name: Release ${{ needs.fetch-env-name.outputs.env_name }} ${{github.run_number}}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
-          draft: false
-          prerelease: false
+          token: ${{ secrets.ACCESS_TOKEN }}
+#         id: create_release
+#         uses: actions/create-release@latest
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+#         with:
+#           commitish: tag
+#           tag_name: ${{github.run_number}}
+#           release_name: Release ${{ needs.fetch-env-name.outputs.env_name }} ${{github.run_number}}
+#           body: |
+#             Changes in this Release
+#             - First Change
+#             - Second Change
+#           draft: false
+#           prerelease: false
+
+#         uses: softprops/action-gh-release@v1
+#         if: startsWith(github.ref, 'refs/tags/')
+#         with:
+#           body_path: ${{ github.workspace }}-CHANGELOG.txt
+#           # note you'll typically need to create a personal access token
+#           # with permissions to create releases in the other repo
+#           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+#         env:
+#           GITHUB_REPOSITORY: my_gh_org/my_gh_repo
