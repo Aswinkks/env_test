@@ -36,7 +36,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
-          target_commitish: $(git rev-parse --short "$GITHUB_SHA")
+          target_commitish: 62aef299afd1ddaad509fd16430e0130ac5a5627
           tag_name: tag_branch
 #         id: create_release
 #         uses: actions/create-release@latest
