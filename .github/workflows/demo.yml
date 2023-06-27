@@ -21,7 +21,7 @@ jobs:
           elif [ "${{ github.ref }}" = "refs/heads/uat" ]; then
             echo "env_name=uat" >> "$GITHUB_OUTPUT"
           else
-             echo "Undefined envs"
+             echo "v1"
           fi    
   build:
     name: Create Release
