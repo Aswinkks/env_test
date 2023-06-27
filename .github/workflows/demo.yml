@@ -1,9 +1,11 @@
 
-name: dbk cicd pipeline
+name: release pipeline 
 
 on:
-  release:
-    types: [published]
+  workflow_run:
+    workflows: ["Tag pipeline"]
+    types:
+      - completed
 jobs:
   fetch-env-name:
     runs-on: ubuntu-latest
