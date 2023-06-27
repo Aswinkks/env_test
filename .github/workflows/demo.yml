@@ -1,5 +1,5 @@
 
-name: dbk cicd pipeline
+name: Tag pipeline
 
 on:
   workflow_dispatch:
