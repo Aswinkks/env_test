@@ -71,9 +71,6 @@ jobs:
         run: |  
           pwd
           ls
-      - name: Copy Artifact to Branch
-        run: |
-          cp site.zip prod/site.zip
 
       - name: Commit Changes
         run: |
