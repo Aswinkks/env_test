@@ -63,10 +63,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: static-site
-      - name: Archive site content
-        uses: thedoctor0/zip-release@master
-        with:
-          filename: site.zip
+#       - name: Archive site content
+#         uses: thedoctor0/zip-release@master
+#         with:
+#           filename: site.zip
       - name: checking the contents
         run: |  
           pwd
