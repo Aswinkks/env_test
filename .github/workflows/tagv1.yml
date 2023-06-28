@@ -55,13 +55,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: release-project
     steps:
-      - name: Configure Git
-        run: |
-          git config --global user.name "Your Name"
-          git config --global user.email "your-email@example.com"
-
       - name: Create Branch
         run: |  
+          git init
           git checkout -b prod
       - name: Download the content
         uses: actions/download-artifact@v2
