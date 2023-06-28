@@ -67,6 +67,10 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           filename: site.zip
+      - name: checking the contents
+        run: |  
+          pwd
+          ls
       - name: Copy Artifact to Branch
         run: |
           cp site.zip prod/site.zip
