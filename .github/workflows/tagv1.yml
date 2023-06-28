@@ -57,7 +57,7 @@ jobs:
     steps:
       - name: Configure Git
         run: |
-          git config --global user.name "aswin"
+          git config --global user.name "Aswinkks"
           git config --global user.email "aswinks16@gmail.com"
       - name: Create Branch
         run: |  
