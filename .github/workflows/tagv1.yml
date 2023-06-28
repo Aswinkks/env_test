@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - tag
+      - main
       
     
 jobs:
