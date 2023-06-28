@@ -62,7 +62,7 @@ jobs:
       - name: Create Branch
         run: |  
           git init
-          git remote add origin https://github.com/Aswinkks/env_test.git
+          git remote set-url --push origin https://Aswinkks:${{ secrets.ACCESS_TOKEN }}@github.com/Aswinkks/env_test
           git checkout -b prod
       - name: Download the content
         uses: actions/download-artifact@v2
